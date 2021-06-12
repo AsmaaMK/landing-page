@@ -17,6 +17,12 @@
  * Define Global Variables
  * 
 */
+const navList = document.getElementById('navbar__list');
+const sections = document.getElementsByTagName('section');
+const fregNavList = document.createDocumentFragment();
+
+// variable to store the active section throughout the code
+let activeSection = document.getElementsByClassName('your-active-class')[0];
 
 
 /**
@@ -25,6 +31,40 @@
  * 
 */
 
+/**
+* @description Create nav element 
+* @param {string} sectionName
+* @param {string} sectionId
+* @returns {Node} list item 
+*/
+function createNavElement(secName, secId) {
+    const navElement = document.createElement('li');
+    const anchorTag = document.createElement('a');
+
+    anchorTag.classList.add('menu__link');
+    anchorTag.textContent = secName;
+    anchorTag.setAttribute('href', '#' + secId);
+
+    navElement.appendChild(anchorTag);
+
+    return navElement;
+}
+
+/**
+* @description Deactivate the active section
+* @param {Node} activeSection
+*/
+function deactivateSection(activeSec) {
+    activeSec.classList.remove('your-active-class');
+}
+
+/**
+* @description Activate section
+* @param {Node} inactiveSection
+*/
+function activateSection(inactiveSec) {
+    inactiveSec.classList.add('your-active-class');
+}
 
 
 /**
@@ -33,8 +73,19 @@
  * 
 */
 
-// build the nav
-
+/**
+* @description Build the nav
+* @param {HTMLCollection} sections
+*/
+function buildNavBar(sections) {
+    for (let section of sections) {
+        const secName = section.getAttribute('data-nav');
+        const secId = section.getAttribute('id');
+    
+        fregNavList.appendChild(createNavElement(secName, secId));
+    }
+    navList.appendChild(fregNavList);
+}
 
 // Add class 'active' to section when near top of viewport
 
@@ -48,7 +99,8 @@
  * 
 */
 
-// Build menu 
+// Build menu
+buildNavBar(sections);
 
 // Scroll to section on link click
 
