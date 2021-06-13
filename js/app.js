@@ -43,7 +43,8 @@ function createNavElement(secName, secId) {
 
     anchorTag.classList.add('menu__link');
     anchorTag.textContent = secName;
-    anchorTag.setAttribute('href', '#' + secId);
+    // anchorTag.setAttribute('href', '#' + secId);
+    anchorTag.style.cursor = 'pointer';
 
     navElement.appendChild(anchorTag);
 
@@ -90,8 +91,6 @@ function buildNavBar(sections) {
 // Add class 'active' to section when near top of viewport
 
 
-// Scroll to anchor ID using scrollTO event
-
 
 /**
  * End Main Functions
@@ -103,5 +102,17 @@ function buildNavBar(sections) {
 buildNavBar(sections);
 
 // Scroll to section on link click
+navList.addEventListener('click', (e) => {
+    if (e.target.nodeName === 'A') {
+        const sec = document.querySelector(`[data-nav = '${e.target.textContent}']`);
+        const secPoss = sec.getBoundingClientRect().top;
+        const startPoss = window.pageYOffset;
+
+        window.scrollTo({
+            top: secPoss + startPoss,
+            behavior: 'smooth'
+        });
+    }
+});
 
 // Set sections as active
