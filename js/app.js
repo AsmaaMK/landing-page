@@ -22,7 +22,10 @@ const sections = document.getElementsByTagName('section');
 const fregNavList = document.createDocumentFragment();
 
 // variable to store the active section throughout the code
-let activeSection = document.getElementsByClassName('your-active-class')[0];
+let activeSection = document.querySelector('.your-active-class');
+// variable to store the active anchor tag
+let activeAnchor;
+let navElementCount = 0;
 
 
 /**
@@ -37,34 +40,19 @@ let activeSection = document.getElementsByClassName('your-active-class')[0];
 * @param {string} sectionId
 * @returns {Node} list item 
 */
-function createNavElement(secName, secId) {
+function createNavElement(secName) {
     const navElement = document.createElement('li');
     const anchorTag = document.createElement('a');
+    navElementCount++;
 
+    anchorTag.setAttribute('id', 'anchor' + navElementCount);
     anchorTag.classList.add('menu__link');
     anchorTag.textContent = secName;
-    // anchorTag.setAttribute('href', '#' + secId);
     anchorTag.style.cursor = 'pointer';
 
     navElement.appendChild(anchorTag);
 
     return navElement;
-}
-
-/**
-* @description Deactivate the active section
-* @param {Node} activeSection
-*/
-function deactivateSection(activeSec) {
-    activeSec.classList.remove('your-active-class');
-}
-
-/**
-* @description Activate section
-* @param {Node} inactiveSection
-*/
-function activateSection(inactiveSec) {
-    inactiveSec.classList.add('your-active-class');
 }
 
 
@@ -86,6 +74,33 @@ function buildNavBar(sections) {
         fregNavList.appendChild(createNavElement(secName, secId));
     }
     navList.appendChild(fregNavList);
+
+    // set the first link as active link
+    const activeAnch = document.getElementById('anchor1');
+    activeAnch.classList.add('menu__link--active');
+    activeAnchor = activeAnch;
+}
+
+/**
+* @description  Set section and its anchor tag as active
+* @param {Node} inactiveSection
+*/
+function activateSection(inactiveSec) {
+    if (inactiveSec !== activeSection) {
+        // activate section 
+        inactiveSec.classList.add('your-active-class');
+        activeSection.classList.remove('your-active-class');
+        activeSection = inactiveSec;
+        
+        // activate anchor tag
+        let anchorId = inactiveSec.getAttribute('id');
+        anchorId = anchorId.replace('section', 'anchor');
+        const anchor = document.getElementById(anchorId);
+        
+        anchor.classList.add('menu__link--active');
+        activeAnchor.classList.remove('menu__link--active');
+        activeAnchor = anchor;
+    }
 }
 
 // Add class 'active' to section when near top of viewport
@@ -107,6 +122,7 @@ navList.addEventListener('click', (e) => {
         const sec = document.querySelector(`[data-nav = '${e.target.textContent}']`);
         const secPoss = sec.getBoundingClientRect().top;
         const startPoss = window.pageYOffset;
+        activateSection(sec);
 
         window.scrollTo({
             top: secPoss + startPoss,
@@ -114,5 +130,3 @@ navList.addEventListener('click', (e) => {
         });
     }
 });
-
-// Set sections as active
