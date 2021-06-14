@@ -103,6 +103,7 @@ section {
 /* Footer Styles */
 
 .page__footer {
+    position: relative;
     background: #333;
     padding: 1em 3em;
     color: #fff;
@@ -110,6 +111,21 @@ section {
 
 .page__footer p {
     color: #fff;
+}
+
+/* scroll button style */
+#scroll-btn {
+    width: 50px;
+    position: absolute;
+    right: 2em;
+    bottom: 6em;
+    cursor: pointer;
+}
+
+@media only screen and (min-width: 35em) {
+    #scroll-btn {
+        right: 5em;
+    }
 }
 
 /* ---- Theme Rules ---- */

@@ -20,6 +20,7 @@
 const navList = document.getElementById('navbar__list');
 const sections = document.getElementsByTagName('section');
 const fregNavList = document.createDocumentFragment();
+const scrollBtn = document.getElementById('scroll-btn');
 
 // variable to store the active section throughout the code
 let activeSection = document.querySelector('.your-active-class');
@@ -137,4 +138,12 @@ navList.addEventListener('click', (e) => {
             behavior: 'smooth'
         });
     }
+});
+
+// Scroll to the top of the page on button click
+scrollBtn.addEventListener('click', () => {
+    window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+    })
 });
