@@ -104,7 +104,15 @@ function activateSection(inactiveSec) {
 }
 
 // Add class 'active' to section when near top of viewport
+onscroll = function() {
+    let scrollPoss = this.document.documentElement.scrollTop;
 
+    for (let section of sections) {
+        if (scrollPoss >= section.offsetTop - 100 && scrollPoss <= section.offsetTop - 200 + section.offsetHeight) {
+            activateSection(section);
+        }
+    }
+};
 
 
 /**
