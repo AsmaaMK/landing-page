@@ -21,6 +21,7 @@ const navList = document.getElementById('navbar__list');
 const sections = document.getElementsByTagName('section');
 const fregNavList = document.createDocumentFragment();
 const scrollBtn = document.getElementById('scroll-btn');
+const hamburgerIcon = document.getElementById('hamburger-icon');
 
 // variable to store the active section throughout the code
 let activeSection = document.querySelector('.your-active-class');
@@ -134,9 +135,11 @@ navList.addEventListener('click', (e) => {
         activateSection(sec);
 
         window.scrollTo({
-            top: secPoss + startPoss,
+            top: secPoss + startPoss - 40,
             behavior: 'smooth'
         });
+
+        navList.classList.toggle('visible');
     }
 });
 
@@ -146,4 +149,9 @@ scrollBtn.addEventListener('click', () => {
         top: 0,
         behavior: 'smooth'
     })
+});
+
+// Toggle the nav bar on click
+hamburgerIcon.addEventListener('click', () => {
+    navList.classList.toggle('visible');
 });
