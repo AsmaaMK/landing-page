@@ -66,17 +66,21 @@ section {
 /* Navigation Styles*/
 
 #hamburger-icon {
-    width: 2.5em;
+    width: 1.7em;
     margin: 0.5em 1em;
 }
 
-.mobile-nav {
+#mobile-nav {
     background-color: #333;
     text-align: right;
+    position: fixed;
+    width: 100vw;
+    height: 50px;
+    transition: top 0.5s;
 }
 
 @media only screen and (min-width: 35em) {
-    .mobile-nav {
+    #mobile-nav {
         display: none;
     }
 }
@@ -86,7 +90,11 @@ section {
     padding-left: 0;
     margin: 0;
     text-align: center;
-    position: sticky;
+    position: fixed;
+    transition: top 0.5s;
+    background-color: #fff;
+    width: 100vw;
+    top: 50px;
 }
 
 .hidden {
@@ -101,6 +109,7 @@ section {
     .navbar__menu ul {
         display: block;
         text-align: right;
+        top: 0;
     }
 }
 

@@ -28,6 +28,7 @@ let activeSection = document.querySelector('.your-active-class');
 // variable to store the active anchor tag
 let activeAnchor;
 let navElementCount = 0;
+let lastScrollTop = 0;
 
 
 /**
@@ -72,7 +73,7 @@ function buildNavBar(sections) {
     for (let section of sections) {
         const secName = section.getAttribute('data-nav');
         const secId = section.getAttribute('id');
-    
+
         fregNavList.appendChild(createNavElement(secName, secId));
     }
     navList.appendChild(fregNavList);
@@ -93,12 +94,12 @@ function activateSection(inactiveSec) {
         inactiveSec.classList.add('your-active-class');
         activeSection.classList.remove('your-active-class');
         activeSection = inactiveSec;
-        
+
         // activate anchor tag
         let anchorId = inactiveSec.getAttribute('id');
         anchorId = anchorId.replace('section', 'anchor');
         const anchor = document.getElementById(anchorId);
-        
+
         anchor.classList.add('menu__link--active');
         activeAnchor.classList.remove('menu__link--active');
         activeAnchor = anchor;
@@ -106,7 +107,7 @@ function activateSection(inactiveSec) {
 }
 
 // Add class 'active' to section when near top of viewport
-onscroll = function() {
+onscroll = function () {
     let scrollPoss = this.document.documentElement.scrollTop;
 
     for (let section of sections) {
@@ -135,7 +136,7 @@ navList.addEventListener('click', (e) => {
         activateSection(sec);
 
         window.scrollTo({
-            top: secPoss + startPoss - 40,
+            top: secPoss + startPoss,
             behavior: 'smooth'
         });
 
@@ -154,4 +155,30 @@ scrollBtn.addEventListener('click', () => {
 // Toggle the nav bar on click
 hamburgerIcon.addEventListener('click', () => {
     navList.classList.toggle('visible');
+});
+
+// hide the nav while scroll down and show it while scroll up
+window.addEventListener("scroll", function () {
+    let st = window.pageYOffset || document.documentElement.scrollTop;
+
+    const mobileNav = document.getElementById('mobile-nav');
+    const style = getComputedStyle(mobileNav);
+    
+    if (style.display === 'none') {
+        if (st > lastScrollTop) {
+            navList.style.top = '-100px';
+        } else {
+            navList.style.top = '0';
+        }
+    } else {
+        if (st > lastScrollTop) {
+            mobileNav.style.top = '-100px';
+            navList.style.top = '-500px';
+        } else {
+            mobileNav.style.top = '0';
+            navList.style.top = '50px';
+        }
+    }
+    
+    lastScrollTop = st <= 0 ? 0 : st;
 });
